@@ -48,7 +48,7 @@ async def check_reddit():
                 break
 
 
-@tasks.loop(seconds=300)
+@tasks.loop(seconds=310)
 async def hes_at_it_again(): #(passCheck=True):
     global first_run
     if first_run:
@@ -58,7 +58,7 @@ async def hes_at_it_again(): #(passCheck=True):
     #if not passCheck:
     #    print("Passing first run")
     #    return
-    channel = bot.get_channel(discord_channel_id)
+    channel = (bot.get_channel(discord_channel_id) or await bot.fetch_channel(discord_channel_id))
     message = f"He’s At it Again!\nhttps://i.redd.it/cm5b0n9jwhec1.jpeg"
     await channel.send(message)
     hes_at_it_again.change_interval(seconds=random.randint(1500, 172800))
@@ -66,6 +66,7 @@ async def hes_at_it_again(): #(passCheck=True):
 
 
 async def on_message(message):
+    print(message.content)
     if message.content.tolower() == "meow":
         await message.add_reaction('🐱')
 
